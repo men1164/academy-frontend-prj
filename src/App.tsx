@@ -3,6 +3,7 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Content from './pages/Content'
+import Login from './pages/Login'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/content/:id" element={<Content />} />
       </Routes>
     </>

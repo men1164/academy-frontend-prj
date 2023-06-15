@@ -1,7 +1,12 @@
+import { Link } from 'react-router-dom'
+import { useAuth } from '../providers/AuthProvider'
+
 const Navbar = () => {
+  const { isLoggedIn, logout } = useAuth()
+
   return (
-    <div className="flex justify-between w-full bg-orange-200/50 h-auto px-8 py-5">
-      <div className="flex text-orange-500 items-center gap-x-2">
+    <div className="flex justify-between items-center w-full bg-orange-200/50 h-auto px-8 py-5">
+      <Link to={'/'} className="flex text-orange-500 items-center gap-x-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -17,8 +22,16 @@ const Navbar = () => {
           />
         </svg>
         <p className="font-bold text-5xl">LearnHub</p>
-      </div>
-      <button className="text-orange-500 font-semibold text-lg">Log In</button>
+      </Link>
+      {isLoggedIn ? (
+        <button onClick={logout} className="text-orange-500 font-semibold text-lg">
+          Log out
+        </button>
+      ) : (
+        <Link to="/login" className="text-orange-500 font-semibold text-lg">
+          Log In
+        </Link>
+      )}
     </div>
   )
 }
