@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../providers/AuthProvider'
 import { FormEvent, useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 const Login = () => {
   const { login } = useAuth()
@@ -14,9 +15,11 @@ const Login = () => {
     try {
       await login(usernameInput, passwordInput)
 
+      toast.success('Logged In!')
       navigate('/')
-    } catch (err) {
+    } catch (err: any) {
       console.log(err)
+      toast.error(err.message)
     }
   }
 
@@ -27,11 +30,11 @@ const Login = () => {
     >
       <div className="flex flex-col gap-2">
         <label>Username</label>
-        <input className="p-3 rounded" type="text" onChange={(e) => setUsernameInput(e.target.value)} />
+        <input className="p-3 rounded" type="text" onChange={(e) => setUsernameInput(e.target.value)} required />
       </div>
       <div className="flex flex-col gap-2">
         <label>Password</label>
-        <input className="p-3 rounded" type="password" onChange={(e) => setPasswordInput(e.target.value)} />
+        <input className="p-3 rounded" type="password" onChange={(e) => setPasswordInput(e.target.value)} required />
       </div>
       <button className="bg-orange-500 p-3 rounded-lg text-white hover:bg-orange-600">Login</button>
     </form>
