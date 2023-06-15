@@ -1,12 +1,13 @@
 import './App.css'
+import Banner from './components/Banner'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
-    <div>
-      <p>
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </p>
-    </div>
+    <>
+      <Navbar />
+      <Banner />
+    </>
   )
 }
 
