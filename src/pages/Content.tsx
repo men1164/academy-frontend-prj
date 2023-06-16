@@ -8,12 +8,12 @@ const Content = () => {
   const { id } = useParams()
   const { content, isLoading, error } = useContent(id || '1')
 
-  if (isLoading) return <Loading />
+  if (isLoading || !content) return <Loading />
 
-  if (error || !content) return <p className="text-center text-red-500">{error}</p>
+  if (error) return <p className="text-center text-red-500">{error}</p>
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4 text-center mx-auto my-20 w-max bg-gray-100 shadow-lg p-8 rounded-xl">
+    <div className="flex flex-col justify-center items-center gap-4 text-center mx-auto my-20 max-w-3xl bg-gray-100 shadow-lg p-8 rounded-xl">
       <p className="text-3xl font-bold text-orange-500">{content.videoTitle}</p>
       <p className="text-xl text-gray-600">{content.creatorName}</p>
       <ReactPlayer url={content.videoUrl} />
