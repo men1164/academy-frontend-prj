@@ -3,9 +3,12 @@ import useContent from '../hooks/useContent'
 import Loading from '../components/Loading'
 import ReactPlayer from 'react-player'
 import ReactStars from 'react-stars'
+import { useAuth } from '../providers/AuthProvider'
+import { Link } from 'react-router-dom'
 
 const Content = () => {
   const { id } = useParams()
+  const { username } = useAuth()
   const { content, isLoading, error } = useContent(id || '1')
 
   if (isLoading || !content) return <Loading />
@@ -20,6 +23,11 @@ const Content = () => {
       <p className="text-xl text-gray-600">{content.comment}</p>
       <p className="text-xl text-gray-600">by {content.postedBy.name}</p>
       <ReactStars count={5} value={content.rating} size={24} color2={'#ffd700'} edit={false} />
+      {username === content.postedBy.username && (
+        <Link to={`/edit/${id}`} className="font-semibold text-lg text-orange-500">
+          Edit
+        </Link>
+      )}
     </div>
   )
 }

@@ -43,7 +43,7 @@ const Edit = () => {
       }
 
       toast.success('Succesfully edited!')
-      navigate('/')
+      navigate(`/content/${id}`)
     } catch (err: any) {
       toast.error(err.message)
     }
