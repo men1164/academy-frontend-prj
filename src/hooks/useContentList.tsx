@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ContentDto } from '../types/types'
+import { ContentBody, ContentDto } from '../types/types'
 
 const useContentList = () => {
   const [contentList, setContentList] = useState<ContentDto[] | null>(null)
@@ -24,7 +24,7 @@ const useContentList = () => {
     fetchData()
   }, [])
 
-  const createContent = async (contentBody: { videoUrl: string; comment: string; rating: number }) => {
+  const createContent = async (contentBody: ContentBody) => {
     const token = localStorage.getItem('token')
 
     try {

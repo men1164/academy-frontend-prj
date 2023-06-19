@@ -24,3 +24,9 @@ export interface ErrorDto {
   message: string
   error: string
 }
+
+export interface ContentBody {
+  videoUrl: string
+  comment: string
+  rating: number
+}
