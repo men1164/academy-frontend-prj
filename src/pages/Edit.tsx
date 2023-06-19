@@ -12,7 +12,7 @@ const Edit = () => {
   const [rating, setRating] = useState<number>(0)
   const [newComment, setNewComment] = useState<string>('')
 
-  // * To pre-filled comment and stars in ReactStars, based on rating in each content
+  // * To pre-filled comment and stars with the original data
   useEffect(() => {
     if (content) {
       setRating(content.rating)
