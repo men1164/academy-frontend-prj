@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast'
 
 const Edit = () => {
   const { id } = useParams()
-  const { content, isLoading, error } = useContent(id || '1')
+  const { content, isLoading, error, editContent } = useContent(id || '1')
   const navigate = useNavigate()
   const [rating, setRating] = useState<number>(0)
   const [newComment, setNewComment] = useState<string>('')
@@ -22,25 +22,12 @@ const Edit = () => {
 
   const handleEdit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const token = localStorage.getItem('token')
 
     try {
-      const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          comment: newComment,
-          rating,
-        }),
+      await editContent({
+        comment: newComment,
+        rating,
       })
-      const data = await res.json()
-
-      if (data.statusCode >= 400) {
-        throw new Error(data.message)
-      }
 
       toast.success('Succesfully edited!')
       navigate(`/content/${id}`)
