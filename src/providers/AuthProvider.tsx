@@ -4,6 +4,7 @@ interface IAuthContext {
   isLoggedIn: boolean
   username: string | null
   login: (username: string, password: string) => Promise<void>
+  register: (username: string, password: string, name: string) => Promise<void>
   logout: () => void
 }
 
@@ -48,6 +49,25 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const register = async (username: string, password: string, name: string) => {
+    const registerBody = { username, name, password }
+
+    try {
+      const res = await fetch('https://api.learnhub.thanayut.in.th/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registerBody),
+      })
+      const data = await res.json()
+
+      if (data.statusCode && data.statusCode !== 201) {
+        throw new Error(data.message)
+      }
+    } catch (err: any) {
+      throw new Error(err.message)
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -55,7 +75,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUsername(null)
   }
 
-  return <AuthContext.Provider value={{ isLoggedIn, login, logout, username }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, register, username }}>{children}</AuthContext.Provider>
+  )
 }
 
 export default AuthProvider
