@@ -10,7 +10,7 @@ const useContentList = () => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await fetch('https://api.learnhub.thanayut.in.th/content')
+        const res = await fetch(`${import.meta.env.VITE_API}/content`)
         const data = await res.json()
 
         setContentList(data.data)

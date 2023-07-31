@@ -25,7 +25,7 @@ const Edit = () => {
     const token = localStorage.getItem('token')
 
     try {
-      const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API}/content/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

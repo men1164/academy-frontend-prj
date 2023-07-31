@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const loginInfo = { username, password }
 
     try {
-      const res = await fetch('https://api.learnhub.thanayut.in.th/auth/login', {
+      const res = await fetch(`${import.meta.env.VITE_API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginInfo),
@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const registerBody = { username, name, password }
 
     try {
-      const res = await fetch('https://api.learnhub.thanayut.in.th/user', {
+      const res = await fetch(`${import.meta.env.VITE_API}/user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(registerBody),

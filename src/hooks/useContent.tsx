@@ -10,7 +10,7 @@ const useContent = (id: string) => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`)
+        const res = await fetch(`${import.meta.env.VITE_API}/content/${id}`)
         const data = await res.json()
 
         setContent(data)

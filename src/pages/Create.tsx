@@ -14,7 +14,7 @@ const Create = () => {
     const token = localStorage.getItem('token')
 
     try {
-      await fetch('https://api.learnhub.thanayut.in.th/content', {
+      await fetch(`${import.meta.env.VITE_API}/content`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
