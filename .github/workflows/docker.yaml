@@ -21,4 +21,4 @@ jobs:
         with:
           push: true
           file: ./Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-cicd:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fe-project:latest
