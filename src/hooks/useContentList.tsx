@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ContentBody, ContentDto } from '../types/types'
+import { CreateContentDTO, ContentDTO } from '../types/dto'
 
 const useContentList = () => {
-  const [contentList, setContentList] = useState<ContentDto[] | null>(null)
+  const [contentList, setContentList] = useState<ContentDTO[] | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState(null)
 
@@ -24,7 +24,7 @@ const useContentList = () => {
     fetchData()
   }, [])
 
-  const createContent = async (contentBody: ContentBody) => {
+  const createContent = async (contentBody: CreateContentDTO) => {
     const token = localStorage.getItem('token')
 
     try {

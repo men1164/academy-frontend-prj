@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ContentBody, ContentDto } from '../types/types'
+import { CreateContentDTO, ContentDTO } from '../types/dto'
 
 const useContent = (id: string) => {
-  const [content, setContent] = useState<ContentDto | null>(null)
+  const [content, setContent] = useState<ContentDTO | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState(null)
 
@@ -24,7 +24,7 @@ const useContent = (id: string) => {
     fetchData()
   }, [])
 
-  const editContent = async (updateBody: Omit<ContentBody, 'videoUrl'>) => {
+  const editContent = async (updateBody: Omit<CreateContentDTO, 'videoUrl'>) => {
     const token = localStorage.getItem('token')
 
     try {
