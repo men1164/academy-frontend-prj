@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ContentDto } from '../types/types'
+import { ContentBody, ContentDto } from '../types/types'
 
 const useContent = (id: string) => {
   const [content, setContent] = useState<ContentDto | null>(null)
@@ -24,7 +24,29 @@ const useContent = (id: string) => {
     fetchData()
   }, [])
 
-  return { content, isLoading, error }
+  const editContent = async (updateBody: Omit<ContentBody, 'videoUrl'>) => {
+    const token = localStorage.getItem('token')
+
+    try {
+      const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updateBody),
+      })
+      const data = await res.json()
+
+      if (data.statusCode >= 400) {
+        throw new Error(data.message)
+      }
+    } catch (err: any) {
+      throw new Error(err.message)
+    }
+  }
+
+  return { content, isLoading, error, editContent }
 }
 
 export default useContent

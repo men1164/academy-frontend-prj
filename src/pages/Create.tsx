@@ -2,29 +2,23 @@ import { FormEvent, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import ReactStars from 'react-stars'
+import useContentList from '../hooks/useContentList'
 
 const Create = () => {
   const navigate = useNavigate()
+  const { createContent } = useContentList()
   const [rating, setRating] = useState<number>(0)
   const [url, setUrl] = useState<string>('')
   const [comment, setComment] = useState<string>('')
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
-    const token = localStorage.getItem('token')
 
     try {
-      await fetch('https://api.learnhub.thanayut.in.th/content', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          videoUrl: url,
-          comment,
-          rating,
-        }),
+      await createContent({
+        videoUrl: url,
+        comment,
+        rating,
       })
       toast.success('Succesfully created!')
       navigate('/')

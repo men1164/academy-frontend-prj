@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ContentDto } from '../types/types'
+import { ContentBody, ContentDto } from '../types/types'
 
 const useContentList = () => {
   const [contentList, setContentList] = useState<ContentDto[] | null>(null)
@@ -24,7 +24,24 @@ const useContentList = () => {
     fetchData()
   }, [])
 
-  return { contentList, isLoading, error }
+  const createContent = async (contentBody: ContentBody) => {
+    const token = localStorage.getItem('token')
+
+    try {
+      await fetch('https://api.learnhub.thanayut.in.th/content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(contentBody),
+      })
+    } catch (err: any) {
+      throw new Error(err.message)
+    }
+  }
+
+  return { contentList, isLoading, error, createContent }
 }
 
 export default useContentList
