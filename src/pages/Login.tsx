@@ -13,13 +13,12 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      await login(usernameInput, passwordInput)
+      await login({ username: usernameInput, password: passwordInput })
 
       toast.success('Logged In!')
       navigate('/')
-    } catch (err: any) {
-      console.log(err)
-      toast.error(err.message)
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message)
     }
   }
 

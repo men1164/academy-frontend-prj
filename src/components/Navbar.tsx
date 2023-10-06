@@ -28,9 +28,14 @@ const Navbar = () => {
           Log out
         </button>
       ) : (
-        <Link to="/login" className="text-orange-500 font-semibold text-lg">
-          Log In
-        </Link>
+        <div className="flex items-center gap-8">
+          <Link to="/login" className="text-orange-500 font-semibold text-lg">
+            Log In
+          </Link>
+          <Link to="/register" className="text-orange-500 font-semibold text-lg">
+            Register
+          </Link>
+        </div>
       )}
     </div>
   )

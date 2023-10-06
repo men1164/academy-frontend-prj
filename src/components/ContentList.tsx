@@ -20,7 +20,7 @@ const ContentList = () => {
         </Link>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-stretch justify-stretch my-9 h-auto">
-        {contentList.map((content) => (
+        {contentList.data.map((content) => (
           <ContentCard key={content.id} content={content} />
         ))}
       </div>

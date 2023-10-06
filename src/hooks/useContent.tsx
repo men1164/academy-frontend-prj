@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { CreateContentDTO, ContentDTO } from '../types/dto'
+import { ContentDTO, UpdateContentDTO } from '../types/dto'
+import axios, { AxiosError } from 'axios'
 
 const useContent = (id: string) => {
   const [content, setContent] = useState<ContentDTO | null>(null)
@@ -10,12 +11,11 @@ const useContent = (id: string) => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`)
-        const data = await res.json()
+        const res = await axios.get<ContentDTO>(`https://api.learnhub.thanayut.in.th/content/${id}`)
 
-        setContent(data)
-      } catch (err: any) {
-        setError(err.message)
+        setContent(res.data)
+      } catch (err) {
+        if (err instanceof AxiosError) setError(err.response?.data.message)
       } finally {
         setIsLoading(false)
       }
@@ -24,25 +24,18 @@ const useContent = (id: string) => {
     fetchData()
   }, [])
 
-  const editContent = async (updateBody: Omit<CreateContentDTO, 'videoUrl'>) => {
+  const editContent = async (updateBody: UpdateContentDTO) => {
     const token = localStorage.getItem('token')
 
     try {
-      const res = await fetch(`https://api.learnhub.thanayut.in.th/content/${id}`, {
-        method: 'PATCH',
+      await axios.patch(`https://api.learnhub.thanayut.in.th/content/${id}`, updateBody, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(updateBody),
       })
-      const data = await res.json()
-
-      if (data.statusCode >= 400) {
-        throw new Error(data.message)
-      }
-    } catch (err: any) {
-      throw new Error(err.message)
+    } catch (err) {
+      if (err instanceof AxiosError) throw new Error(err.response?.data.message)
     }
   }
 

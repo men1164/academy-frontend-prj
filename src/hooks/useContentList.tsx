@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { CreateContentDTO, ContentDTO } from '../types/dto'
+import { CreateContentDTO, ContentsDTO } from '../types/dto'
+import axios, { AxiosError } from 'axios'
 
 const useContentList = () => {
-  const [contentList, setContentList] = useState<ContentDTO[] | null>(null)
+  const [contentList, setContentList] = useState<ContentsDTO | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState(null)
 
@@ -10,12 +11,11 @@ const useContentList = () => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await fetch('https://api.learnhub.thanayut.in.th/content')
-        const data = await res.json()
+        const res = await axios.get<ContentsDTO>('https://api.learnhub.thanayut.in.th/content')
 
-        setContentList(data.data)
-      } catch (err: any) {
-        setError(err.message)
+        setContentList(res.data)
+      } catch (err) {
+        if (err instanceof AxiosError) setError(err.response?.data.message)
       } finally {
         setIsLoading(false)
       }
@@ -28,16 +28,11 @@ const useContentList = () => {
     const token = localStorage.getItem('token')
 
     try {
-      await fetch('https://api.learnhub.thanayut.in.th/content', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(contentBody),
+      await axios.post('https://api.learnhub.thanayut.in.th/content', contentBody, {
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       })
-    } catch (err: any) {
-      throw new Error(err.message)
+    } catch (err) {
+      if (err instanceof AxiosError) throw new Error(err.response?.data.message)
     }
   }
 
