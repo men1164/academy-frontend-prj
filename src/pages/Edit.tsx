@@ -24,15 +24,12 @@ const Edit = () => {
     e.preventDefault()
 
     try {
-      await editContent({
-        comment: newComment,
-        rating,
-      })
+      await editContent({ comment: newComment, rating })
 
       toast.success('Succesfully edited!')
       navigate(`/content/${id}`)
-    } catch (err: any) {
-      toast.error(err.message)
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message)
     }
   }
 

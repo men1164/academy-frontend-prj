@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { ContentDto } from '../types/types'
+import { ContentDTO } from '../types/dto'
 
 interface ContentCardProps {
-  content: ContentDto
+  content: ContentDTO
 }
 
 const ContentCard = ({ content }: ContentCardProps) => {

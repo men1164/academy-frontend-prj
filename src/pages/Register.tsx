@@ -14,13 +14,13 @@ const Register = () => {
     e.preventDefault()
 
     try {
-      await register(usernameInput, passwordInput, nameInput)
-      await login(usernameInput, passwordInput)
+      await register({ username: usernameInput, password: passwordInput, name: nameInput })
+      await login({ username: usernameInput, password: passwordInput })
 
       toast.success('Registered and Logged In!')
       navigate('/')
-    } catch (err: any) {
-      toast.error(err.message)
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message)
     }
   }
 

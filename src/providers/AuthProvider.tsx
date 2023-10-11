@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState } from 'react'
+import { CredentialDTO, LoginDTO, RegisterDTO } from '../types/dto'
+import axios, { AxiosError } from 'axios'
 
 interface IAuthContext {
   isLoggedIn: boolean
   username: string | null
-  login: (username: string, password: string) => Promise<void>
-  register: (username: string, password: string, name: string) => Promise<void>
+  login: (loginBody: LoginDTO) => Promise<void>
+  register: (registerBody: RegisterDTO) => Promise<void>
   logout: () => void
 }
 
@@ -25,46 +27,32 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!token)
   const [username, setUsername] = useState<string | null>(user)
 
-  const login = async (username: string, password: string) => {
-    const loginInfo = { username, password }
-
+  const login = async (loginBody: LoginDTO) => {
     try {
-      const res = await fetch('https://api.learnhub.thanayut.in.th/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginInfo),
+      const res = await axios.post<CredentialDTO>('https://api.learnhub.thanayut.in.th/auth/login', loginBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      const data = await res.json()
 
-      if (data.statusCode === 401) {
-        throw new Error(data.message)
-      }
-
-      localStorage.setItem('token', data.accessToken)
-      localStorage.setItem('user', username)
+      localStorage.setItem('token', res.data.accessToken)
+      localStorage.setItem('user', loginBody.username)
       setIsLoggedIn(true)
       setUsername(username)
-    } catch (err: any) {
-      throw new Error(err.message)
+    } catch (err) {
+      if (err instanceof AxiosError) throw new Error(err.response?.data.message)
     }
   }
 
-  const register = async (username: string, password: string, name: string) => {
-    const registerBody = { username, name, password }
-
+  const register = async (registerBody: RegisterDTO) => {
     try {
-      const res = await fetch('https://api.learnhub.thanayut.in.th/user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registerBody),
+      await axios.post('https://api.learnhub.thanayut.in.th/user', registerBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      const data = await res.json()
-
-      if (data.statusCode && data.statusCode !== 201) {
-        throw new Error(data.message)
-      }
-    } catch (err: any) {
-      throw new Error(err.message)
+    } catch (err) {
+      if (err instanceof AxiosError) throw new Error(err.response?.data.message)
     }
   }
 

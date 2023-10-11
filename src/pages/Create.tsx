@@ -22,8 +22,8 @@ const Create = () => {
       })
       toast.success('Succesfully created!')
       navigate('/')
-    } catch (err: any) {
-      toast.error(err.message)
+    } catch (err) {
+      if (err instanceof Error) toast.error(err.message)
     }
   }
 
