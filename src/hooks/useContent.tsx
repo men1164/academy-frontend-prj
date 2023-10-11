@@ -39,7 +39,22 @@ const useContent = (id: string) => {
     }
   }
 
-  return { content, isLoading, error, editContent }
+  const deleteContent = async () => {
+    const token = localStorage.getItem('token')
+
+    try {
+      await axios.delete(`https://api.learnhub.thanayut.in.th/content/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    } catch (err) {
+      if (err instanceof AxiosError) throw new Error(err.response?.data.message)
+    }
+  }
+
+  return { content, isLoading, error, editContent, deleteContent }
 }
 
 export default useContent
