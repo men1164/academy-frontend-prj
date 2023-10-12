@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ContentDTO } from '../types/dto'
+import ReactStars from 'react-stars'
 
 interface ContentCardProps {
   content: ContentDTO
@@ -15,7 +16,10 @@ const ContentCard = ({ content }: ContentCardProps) => {
           <p className="text-gray-500">{content.creatorName}</p>
           <p className="text-gray-500 italic">{content.comment}</p>
         </div>
-        <p className="text-md text-gray-500">{content.postedBy.name}</p>
+        <div className="flex justify-between">
+          <p className="text-md text-gray-500">{content.postedBy.name}</p>
+          <ReactStars value={content.rating} edit={false} />
+        </div>
       </div>
     </Link>
   )
