@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { ContentDTO, UpdateContentDTO } from '../types/dto'
 import axios, { AxiosError } from 'axios'
+import { useEffect, useState } from 'react'
+import { API_HOST } from '../const'
+import { ContentDTO, UpdateContentDTO } from '../types/dto'
 
 const useContent = (id: string) => {
   const [content, setContent] = useState<ContentDTO | null>(null)
@@ -11,7 +12,7 @@ const useContent = (id: string) => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await axios.get<ContentDTO>(`https://api.learnhub.thanayut.in.th/content/${id}`)
+        const res = await axios.get<ContentDTO>(`${API_HOST}/content/${id}`)
 
         setContent(res.data)
       } catch (err) {
@@ -28,7 +29,7 @@ const useContent = (id: string) => {
     const token = localStorage.getItem('token')
 
     try {
-      await axios.patch(`https://api.learnhub.thanayut.in.th/content/${id}`, updateBody, {
+      await axios.patch(`${API_HOST}/content/${id}`, updateBody, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -43,7 +44,7 @@ const useContent = (id: string) => {
     const token = localStorage.getItem('token')
 
     try {
-      await axios.delete(`https://api.learnhub.thanayut.in.th/content/${id}`, {
+      await axios.delete(`${API_HOST}/content/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

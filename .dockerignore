@@ -1,0 +1,25 @@
+**/.DS_Store
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.vs
+**/.vscode
+**/.next
+**/.cache
+**/*.*proj.user
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/secrets.dev.yaml
+**/values.dev.yaml
+**/build
+**/dist
+LICENSE
+README.md
+
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
