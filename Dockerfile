@@ -5,10 +5,13 @@ ARG PNPM_VERSION=8.10.2
 
 FROM node:${NODE_VERSION} as builder
 
+# Specify all necessary arguments at build time
 ARG VITE_API_HOST=http://localhost:8000
 
 # Use production node environment by default.
 ENV NODE_ENV=development
+
+# Map build arguments to environment variable
 ENV VITE_API_HOST=${VITE_API_HOST}
 
 # Install pnpm.
@@ -28,6 +31,7 @@ COPY . .
 
 RUN pnpm build
 
+# Use nginx as a service image
 FROM nginx:latest
 
 COPY --from=builder /app/dist/ /usr/share/nginx/html
