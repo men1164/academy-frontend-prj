@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react'
-import { CredentialDTO, LoginDTO, RegisterDTO } from '../types/dto'
 import axios, { AxiosError } from 'axios'
+import React, { createContext, useContext, useState } from 'react'
+import { API_HOST } from '../const'
+import { CredentialDTO, LoginDTO, RegisterDTO } from '../types/dto'
 
 interface IAuthContext {
   isLoggedIn: boolean
@@ -29,7 +30,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (loginBody: LoginDTO) => {
     try {
-      const res = await axios.post<CredentialDTO>('https://api.learnhub.thanayut.in.th/auth/login', loginBody, {
+      const res = await axios.post<CredentialDTO>(`${API_HOST}/auth/login`, loginBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,7 +47,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const register = async (registerBody: RegisterDTO) => {
     try {
-      await axios.post('https://api.learnhub.thanayut.in.th/user', registerBody, {
+      await axios.post(`${API_HOST}/user`, registerBody, {
         headers: {
           'Content-Type': 'application/json',
         },
